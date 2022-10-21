@@ -8,6 +8,7 @@ import 'package:tax_payment_app/Resources/Constants/global_variables.dart';
 import 'package:tax_payment_app/Resources/Helpers/LocalData/local_data.helper.dart';
 import 'package:tax_payment_app/Resources/Helpers/sync_online_local.dart';
 import 'package:tax_payment_app/Resources/Models/partner.model.dart';
+import 'package:collection/collection.dart';
 
 class ClientProvider extends ChangeNotifier {
   String keyName = 'clients';
@@ -20,6 +21,19 @@ class ClientProvider extends ChangeNotifier {
     if (action == EnumActions.UPDATE && data.uuid == null) {
       ToastNotification.showToast(
           msg: "Données invalides", msgType: MessageType.error, title: "Error");
+      return;
+    }
+    ClientModel? clientExist = offlineData.firstWhereOrNull((item) =>
+        (item.phone.toString().trim().replaceAll(' ', '') ==
+                data.phone.toString().trim().replaceAll(' ', '') ||
+            item.email == data.email) &&
+        item.phone.isNotEmpty &&
+        item.email != null);
+    if (clientExist != null) {
+      ToastNotification.showToast(
+          msg: "Numéro de téléphone ou email déjà attribué",
+          msgType: MessageType.error,
+          title: "Erreur");
       return;
     }
     Response res;
@@ -43,8 +57,7 @@ class ClientProvider extends ChangeNotifier {
     if (res.statusCode == 500) {
       LocalDataHelper.saveData(key: keyName, value: data.toJSON());
       ToastNotification.showToast(
-          msg: jsonDecode(res.body)['message'] ??
-              'Une erreur est survenue, sauvegarde hors connexion en cours...',
+          msg: 'Une erreur est survenue, sauvegarde hors connexion en cours...',
           msgType: MessageType.info,
           title: "Information");
     }

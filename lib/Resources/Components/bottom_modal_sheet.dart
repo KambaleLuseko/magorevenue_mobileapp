@@ -66,6 +66,7 @@ showBottomModalSheet(
                   Flexible(
                     fit: FlexFit.loose,
                     child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,

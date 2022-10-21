@@ -22,7 +22,8 @@ class ClientPage extends StatelessWidget {
             appBar: AppBar(
               title: Text('Nouveau client'),
             ),
-            body: Column(
+            body: ListView(
+              physics: const BouncingScrollPhysics(),
               children: [
                 ClientFormWidget(
                   canSave: true,

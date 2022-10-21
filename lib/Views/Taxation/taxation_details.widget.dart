@@ -15,6 +15,7 @@ class TaxationDetails extends StatelessWidget {
     return Material(
       color: AppColors.kTransparentColor,
       child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,11 +43,13 @@ class TaxationDetails extends StatelessWidget {
                         title: data.amount,
                         fontSize: 18,
                         textColor: AppColors.kWhiteColor),
+                    const SizedBox(height: 6),
                     TextWidgets.text300(
                         icon: Icons.calendar_today,
                         title: parseDate(date: data.createdAt ?? '0000-00-00'),
                         fontSize: 18,
                         textColor: AppColors.kWhiteColor),
+                    const SizedBox(height: 6),
                     TextWidgets.text300(
                         icon: Icons.account_tree_sharp,
                         title: data.status ?? '',
@@ -79,26 +82,31 @@ class TaxationDetails extends StatelessWidget {
                         title: data.client?.fullname ?? '',
                         fontSize: 18,
                         textColor: AppColors.kWhiteColor),
+                    const SizedBox(height: 6),
                     TextWidgets.text300(
                         icon: Icons.phone,
                         title: data.client?.phone ?? '',
                         fontSize: 18,
                         textColor: AppColors.kWhiteColor),
+                    const SizedBox(height: 6),
                     TextWidgets.text300(
                         icon: Icons.mail,
                         title: data.client?.email ?? '',
                         fontSize: 18,
                         textColor: AppColors.kWhiteColor),
+                    const SizedBox(height: 6),
                     TextWidgets.text300(
                         icon: Icons.payment,
                         title: data.client?.nationalID ?? '',
                         fontSize: 18,
                         textColor: AppColors.kWhiteColor),
+                    const SizedBox(height: 6),
                     TextWidgets.text300(
                         icon: Icons.payment,
                         title: data.client?.impotID ?? '',
                         fontSize: 18,
                         textColor: AppColors.kWhiteColor),
+                    const SizedBox(height: 6),
                     TextWidgets.text300(
                         icon: Icons.location_city,
                         title: data.client?.postalCode ?? '',

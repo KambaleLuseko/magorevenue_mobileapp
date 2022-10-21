@@ -49,6 +49,7 @@ class MyApp extends StatelessWidget {
         scrollBehavior: ScrollConfiguration.of(context).copyWith(
             dragDevices: {PointerDeviceKind.mouse, PointerDeviceKind.touch}),
         theme: ThemeData(
+            platform: TargetPlatform.iOS,
             primarySwatch: Colors.blue,
             scaffoldBackgroundColor: AppColors.kPrimaryColor,
             appBarTheme: AppBarTheme(

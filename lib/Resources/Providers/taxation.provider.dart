@@ -19,7 +19,7 @@ class TaxationProvider extends ChangeNotifier {
   }
 
   String keyName = 'taxation';
-  List<TaxationModel> dataList = [], offlineData = [];
+  List<TaxationModel> dataList = [], offlineData = [], homeData = [];
   saveData(
       {required Map data,
       EnumActions? action = EnumActions.SAVE,
@@ -79,6 +79,9 @@ class TaxationProvider extends ChangeNotifier {
     );
     offlineData = List<TaxationModel>.from(
         data.map((item) => TaxationModel.fromJSON(item)).toList());
+    homeData =
+        offlineData.length > 20 ? offlineData.sublist(0, 20) : offlineData;
+    // print(offlineData);
     notifyListeners();
   }
 

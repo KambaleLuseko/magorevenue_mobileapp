@@ -13,6 +13,7 @@ class TextFormFieldWidget extends StatefulWidget {
   final TextEditingController? editCtrller;
   int? maxLines = 1;
   int maxLength = 255;
+  TextInputType? inputType;
 
   TextFormFieldWidget({
     Key? key,
@@ -20,7 +21,7 @@ class TextFormFieldWidget extends StatefulWidget {
     required this.textColor,
     required this.backColor,
     this.editCtrller,
-    TextInputType? inputType,
+    this.inputType,
     maxLength,
     this.maxLines,
     this.isEnabled,
@@ -51,6 +52,7 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: TextFormField(
+                    keyboardType: widget.inputType,
                     enabled:
                         widget.isEnabled != null ? widget.isEnabled! : true,
                     obscureText:

@@ -62,14 +62,19 @@ class AppStateProvider extends ChangeNotifier {
       return Response(
           jsonEncode({
             'data': [],
-            'message': "Echec de connexion, veuillez réessayer"
+            'message':
+                "Echec de connexion, veuillez réessayer. Sauvegarde hors connexion"
           }),
           500);
     } on SocketException {
       isApiReachable = false;
       changeAppState();
       return Response(
-          jsonEncode({'data': [], 'message': "Verifiez votre connexion"}), 500);
+          jsonEncode({
+            'data': [],
+            'message': "Echec de connexion, sauvegarde hors connexion"
+          }),
+          500);
     } catch (error) {
       // print(error.toString());
       isApiReachable = false;

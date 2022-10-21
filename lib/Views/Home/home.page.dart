@@ -29,14 +29,9 @@ class _HomePageState extends State<HomePage> {
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       context.read<UserProvider>().getUserData();
       context.read<TaxationProvider>().get();
-      data = context.read<TaxationProvider>().offlineData.length > 20
-          ? context.read<TaxationProvider>().offlineData.sublist(0, 20)
-          : context.read<TaxationProvider>().offlineData;
       setState(() {});
     });
   }
-
-  List<TaxationModel> data = [];
 
   @override
   Widget build(BuildContext context) {
@@ -129,143 +124,154 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 24,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextWidgets.textNormal(
-                    title: "Taxes de la division",
-                    fontSize: 18,
-                    textColor: AppColors.kWhiteColor),
-                TextWidgets.text300(
-                    title: "Voir tout",
-                    fontSize: 12,
-                    textColor: AppColors.kWhiteColor),
-              ],
-            ),
-          ),
-          Container(
-            width: double.maxFinite,
-            height: 150,
-            padding: const EdgeInsets.all(0),
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: context
-                    .read<TaxationProvider>()
-                    .currentDivision!
-                    .taxes!
-                    .length,
-                itemBuilder: (context, index) {
-                  return ListItemHome(
-                      data: context
-                          .read<TaxationProvider>()
-                          .currentDivision!
-                          .taxes![index]
-                          .toJSON());
-                }),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextWidgets.textNormal(
-                    title: "Liquidations",
-                    fontSize: 18,
-                    textColor: AppColors.kWhiteColor),
-                GestureDetector(
-                  onTap: () {
-                    Navigation.pushNavigate(page: TaxationListPage());
-                  },
-                  child: Container(
-                    child: TextWidgets.text300(
-                        title: "Voir tout",
-                        fontSize: 12,
-                        textColor: AppColors.kWhiteColor),
-                  ),
-                ),
-              ],
-            ),
-          ),
           Expanded(
-            child: ListView.builder(
-                itemCount: context
-                    .select<TaxationProvider, List<TaxationModel>>(
-                        (provider) => provider.offlineData)
-                    .length,
-                itemBuilder: (context, index) {
-                  DateTime createDate = DateTime.parse(context
-                          .read<TaxationProvider>()
-                          .offlineData[index]
-                          .createdAt ??
-                      '0000-00-00');
-                  return Container(
-                    margin: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: AppColors.kScaffoldColor,
-                    ),
-                    child: ListTile(
-                      onTap: () async {
-                        await showBottomModalSheet(
-                            context: context,
-                            callback: () {},
-                            content: TaxationDetails(
-                                data: context
-                                    .read<TaxationProvider>()
-                                    .offlineData[index]));
-                      },
-                      contentPadding: const EdgeInsets.all(8),
-                      leading: Icon(
-                        context
-                                    .read<TaxationProvider>()
-                                    .offlineData[index]
-                                    .syncStatus ==
-                                1
-                            ? Icons.cloud_done_rounded
-                            : Icons.watch_later_sharp,
-                        color: AppColors.kWhiteColor,
-                        size: 56,
-                      ),
-                      title: TextWidgets.textBold(
-                          title: context
-                                  .read<TaxationProvider>()
-                                  .offlineData[index]
-                                  .uuid ??
-                              '',
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.all(8.0),
+              shrinkWrap: true,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextWidgets.textBold(
+                          title: "Taxes de la division",
                           fontSize: 18,
                           textColor: AppColors.kWhiteColor),
-                      subtitle: TextWidgets.text300(
-                          title: context
-                                  .read<TaxationProvider>()
-                                  .offlineData[index]
-                                  .status ??
-                              '',
-                          fontSize: 14,
+                      TextWidgets.text300(
+                          title: "Voir tout",
+                          fontSize: 12,
                           textColor: AppColors.kWhiteColor),
-                      trailing: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: double.maxFinite,
+                  height: 150,
+                  padding: const EdgeInsets.all(0),
+                  child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: context
+                          .read<TaxationProvider>()
+                          .currentDivision!
+                          .taxes!
+                          .length,
+                      itemBuilder: (context, index) {
+                        return ListItemHome(
+                            data: context
+                                .read<TaxationProvider>()
+                                .currentDivision!
+                                .taxes![index]
+                                .toJSON());
+                      }),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextWidgets.textBold(
+                          title: "Liquidations",
+                          fontSize: 18,
+                          textColor: AppColors.kWhiteColor),
+                      GestureDetector(
+                        onTap: () {
+                          Navigation.pushNavigate(page: TaxationListPage());
+                        },
+                        child: Container(
+                          child: TextWidgets.text300(
+                              title: "Voir tout",
+                              fontSize: 12,
+                              textColor: AppColors.kWhiteColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: context
+                        .select<TaxationProvider, List<TaxationModel>>(
+                            (provider) => provider.homeData)
+                        .length,
+                    itemBuilder: (context, index) {
+                      DateTime createDate = DateTime.parse(context
+                              .read<TaxationProvider>()
+                              .homeData[index]
+                              .createdAt ??
+                          '0000-00-00');
+                      return Container(
+                        margin: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
-                          color: AppColors.kWhiteColor,
+                          color: AppColors.kScaffoldColor,
                         ),
-                        child: TextWidgets.text300(
-                            title:
-                                "FC ${context.read<TaxationProvider>().offlineData[index].amount}",
-                            fontSize: 12,
-                            textColor: AppColors.kBlackColor),
-                      ),
-                    ),
-                  );
-                }),
-          )
+                        child: ListTile(
+                          onTap: () async {
+                            await showBottomModalSheet(
+                                context: context,
+                                callback: () {},
+                                content: TaxationDetails(
+                                    data: context
+                                        .read<TaxationProvider>()
+                                        .homeData[index]));
+                          },
+                          contentPadding: const EdgeInsets.all(8),
+                          leading: Icon(
+                            context
+                                        .read<TaxationProvider>()
+                                        .homeData[index]
+                                        .syncStatus ==
+                                    1
+                                ? Icons.cloud_done_rounded
+                                : Icons.watch_later_sharp,
+                            color: AppColors.kWhiteColor,
+                            size: 56,
+                          ),
+                          title: TextWidgets.textBold(
+                              title: context
+                                      .read<TaxationProvider>()
+                                      .homeData[index]
+                                      .uuid ??
+                                  '',
+                              fontSize: 18,
+                              textColor: AppColors.kWhiteColor),
+                          subtitle: TextWidgets.text300(
+                              title: context
+                                      .read<TaxationProvider>()
+                                      .homeData[index]
+                                      .status ??
+                                  '',
+                              fontSize: 14,
+                              textColor: AppColors.kWhiteColor),
+                          trailing: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              color: AppColors.kWhiteColor,
+                            ),
+                            child: TextWidgets.text300(
+                                title:
+                                    "FC ${context.read<TaxationProvider>().homeData[index].amount}",
+                                fontSize: 12,
+                                textColor: AppColors.kBlackColor),
+                          ),
+                        ),
+                      );
+                    }),
+              ],
+            ),
+          ),
         ],
       ),
     );
