@@ -6,10 +6,24 @@ import 'package:tax_payment_app/Resources/Constants/global_variables.dart';
 import 'package:tax_payment_app/Resources/Helpers/LocalData/local_data.helper.dart';
 import 'package:tax_payment_app/Resources/Helpers/sync_online_local.dart';
 import 'package:tax_payment_app/Resources/Models/division.model.dart';
+import 'package:collection/collection.dart';
 
 class DivisionProvider extends ChangeNotifier {
   String keyName = 'divisions';
   List<DivisionModel> dataList = [], offlineData = [];
+
+  DivisionModel? currentDivision;
+
+  setDivision(DivisionModel division) {
+    currentDivision = division;
+    notifyListeners();
+  }
+
+  updateCurrentDivision() {
+    currentDivision =
+        offlineData.firstWhereOrNull((item) => item.id == currentDivision?.id);
+    notifyListeners();
+  }
 
   get({bool? isRefresh = false}) {
     if (AppProviders.appProvider.isApiReachable) {
@@ -25,6 +39,7 @@ class DivisionProvider extends ChangeNotifier {
     );
     offlineData = List<DivisionModel>.from(
         data.map((item) => DivisionModel.fromJSON(item)).toList());
+    updateCurrentDivision();
     notifyListeners();
   }
 
@@ -33,9 +48,11 @@ class DivisionProvider extends ChangeNotifier {
     var response = await AppProviders.appProvider
         .httpGet(url: "${BaseUrl.divisions}${value ?? ''}");
     List data = [];
-    // print(response.body);
+    // debugPrint(response.body);
     if (response.statusCode == 200) {
       data = jsonDecode(response.body)['data'];
+    } else {
+      return;
     }
     dataList = List<DivisionModel>.from(
         data.map((item) => DivisionModel.fromJSON(item)).toList());
@@ -43,12 +60,15 @@ class DivisionProvider extends ChangeNotifier {
         onlineData: dataList.map((e) => e.toJSON()).toList(),
         offlineData: offlineData.map((e) => e.toJSON()).toList(),
         key: keyName,
-        callback: getOffline);
+        callback: () {
+          getOffline(isRefresh: true);
+        });
     notifyListeners();
   }
 
   reset() {
     offlineData.clear();
+    currentDivision = null;
     dataList.clear();
     notifyListeners();
   }

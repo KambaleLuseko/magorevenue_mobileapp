@@ -5,7 +5,7 @@ module.exports = (connection, Sequelize) => {
             allowNull: false,
             unique: true
         },
-        division_uuid: {
+        division_id: {
             type: Sequelize.STRING,
             allowNull: false,
         },
@@ -23,20 +23,20 @@ module.exports = (connection, Sequelize) => {
             allowNull: true,
             defaultValue: '0'
         },
-        pourcentage: {
+        pourcentageAPayer: {
             type: Sequelize.STRING,
             allowNull: true,
             defaultValue: '0'
         },
-        cycle: {
+        cyclePayment: {
             type: Sequelize.STRING,
             allowNull: true,
-            defaultValue: 'Mensuel'
+            defaultValue: '30'
         },
-        periode: {
+        periodeAvantRecouvrement: {
             type: Sequelize.INTEGER,
             allowNull: true,
-            defaultValue: 30
+            defaultValue: 15
         },
         active: {
             type: Sequelize.INTEGER,

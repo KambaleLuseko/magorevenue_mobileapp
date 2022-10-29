@@ -11,7 +11,7 @@ DivisionController.findAll = async (req, res) => {
     }
     let data = await divisions.findAll(searchValue ? { where: condition } : {});
     for (let index = 0; index < data.length; index++) {
-        data[index].dataValues.taxes = await TaxService.findAll(data[index].dataValues.uuid);
+        data[index].dataValues.taxes = await TaxService.findAll(data[index].dataValues.id);
     }
     res.status(200).send({ data: data });
 }

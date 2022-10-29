@@ -20,6 +20,8 @@ database.clients = require('../clients/client.model')(connexion, Sequelize);
 database.clients_taxes = require('../client_taxes/client_tax.model')(connexion, Sequelize);
 database.divisions = require('../division/division.model')(connexion, Sequelize);
 database.taxes = require('../taxes/tax.model')(connexion, Sequelize);
+database.taxeInputs = require('../taxes_inputs/taxe_inputs.model')(connexion, Sequelize);
+database.infoTaxePayment = require('../info_taxe_payment/info_taxe_payment.model')(connexion, Sequelize);
 database.taxations = require('../taxation/taxation.model')(connexion, Sequelize);
 
 module.exports = database;

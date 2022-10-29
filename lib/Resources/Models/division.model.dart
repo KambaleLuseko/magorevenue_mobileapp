@@ -54,6 +54,7 @@ class TaxeModel {
   String? uuid, description;
   int? id, active, syncStatus;
   String divisionUuid, name, montant_du, pourcentage;
+  List<TaxeInputModel> inputs;
   TaxeModel(
       {required this.divisionUuid,
       required this.name,
@@ -63,20 +64,34 @@ class TaxeModel {
       this.description,
       this.id,
       this.active,
-      this.syncStatus});
+      this.syncStatus,
+      required this.inputs});
 
   static fromJSON(json) {
+    // print(json['inputs'] is List<TaxeInputModel>
+    //     ? json['inputs']
+    //     : json['inputs'] != null
+    //         ? List<TaxeInputModel>.from(json['inputs'].map((item) {
+    //             return TaxeInputModel.fromJSON(item);
+    //           }))
+    //         : []);
     return TaxeModel(
-      id: json['id'],
-      uuid: json['uuid'] ?? uuidGenerator(),
-      divisionUuid: json['division_uuid'],
-      name: json['name'],
-      description: json['description'],
-      montant_du: json['montant_du'],
-      pourcentage: json['pourcentage'],
-      active: json['active'],
-      syncStatus: json['syncStatus'] ?? 0,
-    );
+        id: json['id'],
+        uuid: json['uuid'] ?? uuidGenerator(),
+        divisionUuid: json['division_uuid'],
+        name: json['name'],
+        description: json['description'],
+        montant_du: json['montant_du'],
+        pourcentage: json['pourcentageAPayer'],
+        active: json['active'],
+        syncStatus: json['syncStatus'] ?? 0,
+        inputs: json['inputs'] is List<TaxeInputModel>
+            ? json['inputs']
+            : json['inputs'] != null
+                ? List<TaxeInputModel>.from(json['inputs'].map((item) {
+                    return TaxeInputModel.fromJSON(item);
+                  }))
+                : []);
   }
 
   toJSON() {
@@ -84,11 +99,48 @@ class TaxeModel {
       "division_uuid": divisionUuid,
       "name": name,
       "montant_du": montant_du,
-      "pourcentage": pourcentage,
+      "pourcentageAPayer": pourcentage,
       "description": description,
       "uuid": uuid ?? uuidGenerator(),
       "id": id,
       "active": active,
+      "syncStatus": syncStatus,
+      "inputs": inputs.map((e) => e.toJSON()).toList(),
+    };
+  }
+}
+
+class TaxeInputModel {
+  int taxe_id;
+  int? id, syncStatus, isRequired;
+  String name;
+  String? type;
+  TaxeInputModel(
+      {required this.taxe_id,
+      required this.name,
+      this.type,
+      this.isRequired,
+      this.id,
+      this.syncStatus});
+
+  static fromJSON(json) {
+    return TaxeInputModel(
+      id: json['id'],
+      taxe_id: json['taxe_id'],
+      name: json['name'],
+      type: json['type'],
+      isRequired: json['required'],
+      syncStatus: json['syncStatus'] ?? 0,
+    );
+  }
+
+  toJSON() {
+    return {
+      "taxe_id": taxe_id,
+      "name": name,
+      "type": type,
+      "required": isRequired,
+      "id": id,
       "syncStatus": syncStatus,
     };
   }
@@ -97,48 +149,58 @@ class TaxeModel {
 class TaxePaymentModel {
   String? uuid, taxDescription, taxName;
   int? id, syncStatus;
-  String taxe_uuid, taxation_uuid, amount, dueDate, status;
+  String taxe_id, taxation_uuid, amountPaid, nextPayment, recoveryDate, status;
+  List? inputsData, taxeInfo;
   TaxePaymentModel(
-      {required this.taxe_uuid,
+      {required this.taxe_id,
       required this.taxation_uuid,
       this.taxName,
-      required this.amount,
-      required this.dueDate,
+      required this.amountPaid,
+      required this.nextPayment,
+      required this.recoveryDate,
       this.uuid,
       this.taxDescription,
       this.id,
       required this.status,
-      this.syncStatus});
+      this.syncStatus,
+      this.inputsData,
+      this.taxeInfo});
 
   static fromJSON(json) {
     return TaxePaymentModel(
       id: json['id'],
       uuid: json['uuid'] ?? uuidGenerator(),
       taxName: json['taxName'],
-      taxe_uuid: json['taxe_uuid'],
+      taxe_id: json['taxe_id'],
       taxation_uuid: json['taxation_uuid'],
       taxDescription: json['taxDescription'],
-      amount: json['amount'],
-      dueDate: json['dueDate'],
+      amountPaid: json['amountPaid'],
+      nextPayment: json['nextPayment'],
+      recoveryDate: json['recoveryDate'],
       status: json['status']?.toString() ?? '',
       syncStatus: json['syncStatus'] ?? 0,
+      inputsData: json['inputsData'] ?? [],
+      taxeInfo: json['taxeInfo'] ?? [],
     );
   }
 
   toJSON() {
     return {
-      "taxe_uuid": taxe_uuid,
+      "taxe_id": taxe_id,
       "taxation_uuid": taxation_uuid,
       "taxName": taxName,
       "taxDescription": taxDescription,
-      "amount": amount,
-      "dueDate": dueDate != 'null'
-          ? dueDate
+      "amountPaid": amountPaid,
+      "recoveryDate": recoveryDate,
+      "nextPayment": nextPayment != 'null'
+          ? nextPayment
           : DateTime.now().add(const Duration(days: 30)).toString(),
       "uuid": uuid ?? uuidGenerator(),
       "id": id,
       "status": status,
       "syncStatus": syncStatus,
+      "inputsData": inputsData,
+      "taxeInfo": taxeInfo
     };
   }
 }

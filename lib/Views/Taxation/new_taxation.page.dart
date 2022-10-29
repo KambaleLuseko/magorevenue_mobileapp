@@ -188,8 +188,9 @@ class _AddNewTaxationPageState extends State<AddNewTaxationPage> {
                         } else {
                           Map data = {
                             "uuid": transUUID,
-                            "amount": taxesData.choosedData
-                                ?.map((e) => double.parse(e.amount.toString()))
+                            "totalAmount": taxesData.choosedData
+                                ?.map((e) =>
+                                    double.parse(e.amountPaid.toString()))
                                 .reduce((prev, next) => prev + next),
                             "client": client?.toJSON(),
                             "status": 'Constatation',

@@ -40,7 +40,7 @@ class TaxationDetails extends StatelessWidget {
                     Row(),
                     TextWidgets.text300(
                         icon: Icons.attach_money,
-                        title: data.amount,
+                        title: data.totalAmount,
                         fontSize: 18,
                         textColor: AppColors.kWhiteColor),
                     const SizedBox(height: 6),
@@ -145,7 +145,20 @@ class TaxationDetails extends StatelessWidget {
                               title: data.taxes?[index].taxName ?? 'Unknown',
                               subtitle: data.taxes?[index].taxDescription ??
                                   'Unknown',
-                              detailsFields: [],
+                              detailsFields: [
+                                if (data.taxes?[index].taxeInfo != null)
+                                  ...List.generate(
+                                      data.taxes![index].taxeInfo!.length,
+                                      (indexInfo) => ListItemModel(
+                                          title: data.taxes?[index]
+                                                      .taxeInfo![indexInfo]
+                                                  ['name'] ??
+                                              '',
+                                          value: data.taxes?[index]
+                                                      .taxeInfo![indexInfo]
+                                                  ['value'] ??
+                                              ''))
+                              ],
                               middleFields: ListItemModel(
                                   displayLabel: false,
                                   icon: Container(
@@ -157,7 +170,7 @@ class TaxationDetails extends StatelessWidget {
                                     ),
                                     child: TextWidgets.text300(
                                         title:
-                                            "FC ${data.taxes?[index].amount}",
+                                            "FC ${data.taxes?[index].amountPaid}",
                                         fontSize: 12,
                                         textColor: AppColors.kBlackColor),
                                   ),
@@ -165,7 +178,7 @@ class TaxationDetails extends StatelessWidget {
                                       data.taxes?[index].status ?? 'Pending...',
                                   value: data.taxes?[index].status ??
                                       'Pending...'),
-                              backColor: AppColors.kPrimaryColor,
+                              backColor: AppColors.kBlackLightColor,
                               textColor: AppColors.kWhiteColor,
                               keepMidleFields: true,
                             )),

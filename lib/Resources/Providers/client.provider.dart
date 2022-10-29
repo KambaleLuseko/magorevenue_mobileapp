@@ -100,6 +100,8 @@ class ClientProvider extends ChangeNotifier {
     // print(response.body);
     if (response.statusCode == 200) {
       data = jsonDecode(response.body)['data'];
+    } else {
+      return;
     }
     dataList = List<ClientModel>.from(
         data.map((item) => ClientModel.fromJSON(item)).toList());
@@ -107,7 +109,9 @@ class ClientProvider extends ChangeNotifier {
         onlineData: dataList.map((e) => e.toJSON()).toList(),
         offlineData: offlineData.map((e) => e.toJSON()).toList(),
         key: keyName,
-        callback: getOffline);
+        callback: () {
+          getOffline(isRefresh: true);
+        });
     notifyListeners();
   }
 

@@ -116,29 +116,51 @@ class _ResumeWidgetState extends State<ResumeWidget> {
             ...List.generate(
                 widget.data.length,
                 (index) => Card(
-                      margin: const EdgeInsets.symmetric(vertical: 4),
-                      color: AppColors.kAccentColor,
-                      // shadowColor: AppColors.kTextFormWhiteColor,
-                      child: Stack(
-                        overflow: Overflow.visible,
-                        children: [
-                          ListTile(
-                            title: TextWidgets.textBold(
-                                title: widget.data[index].taxName!,
-                                fontSize: 14,
-                                textColor: AppColors.kWhiteColor),
-                            subtitle: TextWidgets.text300(
-                                title:
-                                    'Prochain paiement : ${parseDate(date: widget.data[index].dueDate)}',
-                                fontSize: 14,
-                                textColor: AppColors.kWhiteColor),
-                            trailing: TextWidgets.text300(
-                                title: "CDF ${widget.data[index].amount}",
-                                fontSize: 14,
-                                textColor: AppColors.kWhiteColor),
-                          ),
-                        ],
+                    margin: const EdgeInsets.symmetric(vertical: 4),
+                    color: AppColors.kAccentColor,
+                    // shadowColor: AppColors.kTextFormWhiteColor,
+                    child: ListItem(
+                      title: widget.data[index].taxName!,
+                      subtitle:
+                          'Prochain paiement : ${parseDate(date: widget.data[index].nextPayment)}',
+                      backColor: AppColors.kAccentColor,
+                      textColor: AppColors.kWhiteColor,
+                      detailsFields: [
+                        ...List.generate(
+                            widget.data[index].inputsData!.length,
+                            (inputIndex) => ListItemModel(
+                                  title: widget.data[index]
+                                          .inputsData?[inputIndex]['name'] ??
+                                      '',
+                                  value: widget.data[index]
+                                          .inputsData?[inputIndex]['value'] ??
+                                      '',
+                                  // icon: Icon(Icons.info,
+                                  //     color: AppColors.kWhiteColor),
+                                ))
+                      ],
+                      keepMidleFields: true,
+                      middleFields: ListItemModel(
+                        displayLabel: true,
+                        title: 'Montant',
+                        value: "CDF ${widget.data[index].amountPaid}",
                       ),
+                    )
+
+                    // ListTile(
+                    //   title:
+                    //       fontSize: 14,
+                    //       textColor: AppColors.kWhiteColor),
+                    //   subtitle: TextWidgets.text300(
+                    //       title:
+                    //           'Prochain paiement : ${parseDate(date: widget.data[index].dueDate)}',
+                    //       fontSize: 14,
+                    //       textColor: AppColors.kWhiteColor),
+                    //   trailing: TextWidgets.text300(
+                    //       title: "CDF ${widget.data[index].amount}",
+                    //       fontSize: 14,
+                    //       textColor: AppColors.kWhiteColor),
+                    // ),
                     ))
           ],
         ),

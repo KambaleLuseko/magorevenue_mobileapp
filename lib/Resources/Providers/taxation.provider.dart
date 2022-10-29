@@ -11,13 +11,6 @@ import 'package:tax_payment_app/Resources/Models/division.model.dart';
 import 'package:tax_payment_app/Resources/Models/taxation.mode.dart';
 
 class TaxationProvider extends ChangeNotifier {
-  DivisionModel? currentDivision;
-
-  setDivision(DivisionModel division) {
-    currentDivision = division;
-    notifyListeners();
-  }
-
   String keyName = 'taxation';
   List<TaxationModel> dataList = [], offlineData = [], homeData = [];
   saveData(
@@ -93,6 +86,8 @@ class TaxationProvider extends ChangeNotifier {
     // print(response.body);
     if (response.statusCode == 200) {
       data = jsonDecode(response.body)['data'];
+    } else {
+      return;
     }
     dataList = List<TaxationModel>.from(
         data.map((item) => TaxationModel.fromJSON(item)).toList());
@@ -100,14 +95,16 @@ class TaxationProvider extends ChangeNotifier {
         onlineData: dataList.map((e) => e.toJSON()).toList(),
         offlineData: offlineData.map((e) => e.toJSON()).toList(),
         key: keyName,
-        callback: getOffline);
+        callback: () {
+          getOffline(isRefresh: true);
+        });
     notifyListeners();
   }
 
   reset() {
     offlineData.clear();
     dataList.clear();
-    currentDivision = null;
+
     notifyListeners();
   }
 

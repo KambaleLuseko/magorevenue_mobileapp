@@ -4,7 +4,9 @@ import 'package:tax_payment_app/Resources/Components/bottom_modal_sheet.dart';
 import 'package:tax_payment_app/Resources/Components/texts.dart';
 import 'package:tax_payment_app/Resources/Constants/global_variables.dart';
 import 'package:tax_payment_app/Resources/Constants/navigators.dart';
+import 'package:tax_payment_app/Resources/Models/division.model.dart';
 import 'package:tax_payment_app/Resources/Models/taxation.mode.dart';
+import 'package:tax_payment_app/Resources/Providers/division.provider.dart';
 import 'package:tax_payment_app/Resources/Providers/taxation.provider.dart';
 import 'package:tax_payment_app/Resources/Providers/users_provider.dart';
 import 'package:tax_payment_app/Views/Taxation/new_taxation.page.dart';
@@ -44,13 +46,13 @@ class _HomePageState extends State<HomePage> {
         icon: const Icon(Icons.add),
         isExtended: true,
         heroTag: 'constatation',
-        backgroundColor: AppColors.kAccentColor,
+        backgroundColor: AppColors.kScaffoldColor,
         elevation: 8,
         // mini: true,
         onPressed: () {
           Navigation.pushNavigate(
               page: AddNewTaxationPage(
-            data: context.read<TaxationProvider>().currentDivision!,
+            data: context.read<DivisionProvider>().currentDivision!,
           ));
         },
       ),
@@ -66,7 +68,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           TextWidgets.textBold(
               title:
-                  (context.read<TaxationProvider>().currentDivision?.name ?? '')
+                  (context.read<DivisionProvider>().currentDivision?.name ?? '')
                       .toUpperCase(),
               fontSize: 22,
               textColor: AppColors.kWhiteColor),
@@ -156,14 +158,14 @@ class _HomePageState extends State<HomePage> {
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       itemCount: context
-                          .read<TaxationProvider>()
-                          .currentDivision!
+                          .select<DivisionProvider, DivisionModel>(
+                              (provider) => provider.currentDivision!)
                           .taxes!
                           .length,
                       itemBuilder: (context, index) {
                         return ListItemHome(
                             data: context
-                                .read<TaxationProvider>()
+                                .read<DivisionProvider>()
                                 .currentDivision!
                                 .taxes![index]
                                 .toJSON());
@@ -213,7 +215,7 @@ class _HomePageState extends State<HomePage> {
                         margin: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
-                          color: AppColors.kScaffoldColor,
+                          color: AppColors.kBlackLightColor,
                         ),
                         child: ListTile(
                           onTap: () async {
@@ -262,7 +264,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             child: TextWidgets.text300(
                                 title:
-                                    "FC ${context.read<TaxationProvider>().homeData[index].amount}",
+                                    "FC ${context.read<TaxationProvider>().homeData[index].totalAmount}",
                                 fontSize: 12,
                                 textColor: AppColors.kBlackColor),
                           ),
@@ -297,6 +299,7 @@ class ListItemHome extends StatelessWidget {
           child: Stack(
             children: [
               Container(
+                width: double.maxFinite,
                 height: 136,
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
@@ -320,7 +323,7 @@ class ListItemHome extends StatelessWidget {
                     const Spacer(),
                     TextWidgets.textBold(
                         title:
-                            "CDF ${(double.parse(data['montant_du']) * double.parse(data['pourcentage'])) / 100}",
+                            "CDF ${(double.parse(data['montant_du']) * double.parse(data['pourcentageAPayer'])) / 100}",
                         fontSize: 20,
                         textColor: AppColors.kRedColor),
                     // TextWidgets.text300(

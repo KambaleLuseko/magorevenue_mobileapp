@@ -117,7 +117,7 @@ class _TaxationListPageState extends State<TaxationListPage> {
                       margin: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        color: AppColors.kScaffoldColor,
+                        color: AppColors.kBlackLightColor,
                       ),
                       child: ListTile(
                         onTap: () async {
@@ -166,7 +166,7 @@ class _TaxationListPageState extends State<TaxationListPage> {
                           ),
                           child: TextWidgets.text300(
                               title:
-                                  "FC ${context.read<TaxationProvider>().offlineData[index].amount}",
+                                  "FC ${context.read<TaxationProvider>().offlineData[index].totalAmount}",
                               fontSize: 12,
                               textColor: AppColors.kBlackColor),
                         ),

@@ -78,6 +78,30 @@ class _ClientFormWidgetState extends State<ClientFormWidget> {
                         title: "Erreur");
                     return;
                   }
+                  if (!widget.phoneCtrller.text.contains('+')) {
+                    ToastNotification.showToast(
+                        msg:
+                            "Veuillez saisir le numéro de téléphone avec le code pays",
+                        msgType: MessageType.error,
+                        title: "Erreur");
+                    return;
+                  }
+                  if (context
+                      .read<ClientProvider>()
+                      .offlineData
+                      .where((item) => item.phone.contains(widget
+                          .phoneCtrller.text
+                          .trim()
+                          .replaceAll(' ', '')
+                          .replaceAll('+', '')))
+                      .toList()
+                      .isNotEmpty) {
+                    ToastNotification.showToast(
+                        msg: "Ce numéro de téléphone déjà utilisé",
+                        msgType: MessageType.error,
+                        title: "Erreur");
+                    return;
+                  }
                   ClientModel data = ClientModel.fromJSON({
                     "fullname": widget.fullnameCtrller.text.trim(),
                     "phone": widget.phoneCtrller.text.trim(),

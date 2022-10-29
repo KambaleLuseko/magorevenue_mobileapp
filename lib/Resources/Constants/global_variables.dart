@@ -38,8 +38,8 @@ class AppColors {
 
 class BaseUrl {
   // static String ip = "https://binjafloraapp.herokuapp.com";
-  // static String ip = "http://127.0.0.1:3000";
-  static String ip = "http://192.168.107.107:3000";
+  static String ip = "http://127.0.0.1:3000";
+  // static String ip = "http://192.168.107.107:3000";
   static String apiUrl = "$ip/api";
   static String getLogin = '$apiUrl/user/login/';
   static String user = '$apiUrl/users/';

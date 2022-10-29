@@ -30,29 +30,31 @@ TaxationService.create = async (data) => {
     let uuid = data.uuid || uuidGenerator();
     let client = data.client;
     let taxes = data.taxes;
-    if (!client.uuid || !data.amount) {
+    if (!client.uuid || !data.totalAmount) {
         return { status: 400, data: [], message: "Invalid data submitted" };
     }
     let saveTaxation = {
         uuid: uuid,
         client_uuid: client.uuid,
-        amount: data.amount,
+        totalAmount: data.totalAmount,
         status: 'Constatation',
     }
     let hasErrors = false;
     let saveTaxes = [];
     for (let index = 0; index < taxes.length; index++) {
-        if (!taxes[index].taxe_uuid || !taxes[index].amount || !taxes[index].dueDate) {
+        if (!taxes[index].taxe_id || !taxes[index].amountPaid || !taxes[index].nextPayment) {
             // console.log(data[index]);
             hasErrors = true;
             continue;
         }
         saveTaxes.push({
             taxation_uuid: uuid,
-            taxe_uuid: taxes[index].taxe_uuid,
-            amount: taxes[index].amount,
-            dueDate: taxes[index].dueDate,
+            taxe_id: taxes[index].taxe_id,
+            amountPaid: taxes[index].amountPaid,
+            nextPayment: taxes[index].nextPayment,
+            recoveryDate: taxes[index].recoveryDate,
             status: taxes[index].status,
+            inputsData: taxes[index].inputsData
         });
     }
     if (hasErrors == true) {
@@ -84,25 +86,25 @@ TaxationService.sync = async (data) => {
         taxationToSave.push({
             uuid: uuid,
             client_uuid: client.uuid,
-            amount: data[index].amount,
+            totalAmount: data[index].totalAmount,
             status: data[index].status || 'Constatation',
         })
         let taxes = data[index].taxes;
         for (let taxIndex = 0; taxIndex < taxes.length; taxIndex++) {
             var someDate = new Date();
             var newDueDate = someDate.setDate(someDate.getDate() + 30);
-            if (!taxes[taxIndex].taxe_uuid || !taxes[taxIndex].amount) {
+            if (!taxes[taxIndex].taxe_id || !taxes[taxIndex].amountPaid) {
                 // console.log(data[index]);
                 hasErrors = true;
                 continue;
             }
             taxesToSave.push({
-                taxation_uuid: uuid,
-                taxe_uuid: taxes[taxIndex].taxe_uuid,
-                amount: taxes[taxIndex].amount,
-                dueDate: taxes[taxIndex].dueDate || newDueDate,
-                periode: taxes[taxIndex].periode || 'Mois present',
-                status: taxes[taxIndex].status || 'Pending',
+                taxe_id: taxes[index].taxe_id,
+                amountPaid: taxes[index].amountPaid,
+                nextPayment: taxes[index].nextPayment,
+                recoveryDate: taxes[index].recoveryDate,
+                status: taxes[index].status || 'Pending',
+                inputsData: taxes[index].inputsData
             });
         }
     }

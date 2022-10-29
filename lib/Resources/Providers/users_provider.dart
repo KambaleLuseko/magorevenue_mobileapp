@@ -109,6 +109,8 @@ class UserProvider extends ChangeNotifier {
     // print(response.body);
     if (response.statusCode == 200) {
       data = jsonDecode(response.body)['data'];
+    } else {
+      return;
     }
     users = List<UserModel>.from(
         data.map((item) => UserModel.fromJSON(item)).toList());

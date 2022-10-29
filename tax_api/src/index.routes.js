@@ -4,6 +4,7 @@ router.use('/clients', require('./clients/client.route'));
 router.use('/clients-taxes', require('./client_taxes/client_tax.route'));
 router.use('/divisions', require('./division/division.route'));
 router.use('/taxes', require('./taxes/tax.route'));
+router.use('/taxe-inputs', require('./taxes_inputs/taxe_inputs.route'));
 router.use('/taxation', require('./taxation/taxation.route'));
 router.use('/users', require('./users/user.route'));
 

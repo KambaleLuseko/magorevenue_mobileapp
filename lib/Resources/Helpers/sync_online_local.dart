@@ -9,10 +9,10 @@ class SyncOnlineLocalHelper {
       Function? callback}) async {
     // offlineData.clear();
     // await LocalDataHelper.clearLocalData(key: key);
-    if (onlineData.isNotEmpty && mustClearLocalData == true) {
-      await LocalDataHelper.clearLocalData(key: key);
-      offlineData.clear();
-    }
+    // if (onlineData.isNotEmpty && mustClearLocalData == true) {
+    await LocalDataHelper.clearLocalData(key: key);
+    offlineData.clear();
+    // }
     // print('inserting new data');
     // if (key.toLowerCase() == 'samples') {}
     List missedOnlineData = [];

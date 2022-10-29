@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const clientTaxModel = sequelize.define('client_taxes', {
+    const clientTaxModel = sequelize.define('client_taxes_paid', {
         uuid: {
             type: Sequelize.STRING,
             allowNull: false,
@@ -9,15 +9,15 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: false,
         },
-        taxe_uuid: {
+        taxe_id: {
             type: Sequelize.STRING,
             allowNull: false,
         },
-        amount: {
+        amountPaid: {
             type: Sequelize.STRING,
             allowNull: false,
         },
-        dueDate: {
+        nextPayment: {
             type: Sequelize.STRING,
             allowNull: false,
         },
@@ -25,6 +25,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: true,
             defaultValue: 'Constatation'
+        },
+        recoveryDate: {
+            type: Sequelize.STRING,
+            allowNull: false,
         },
         active: {
             type: Sequelize.INTEGER,

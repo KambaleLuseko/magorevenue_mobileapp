@@ -94,7 +94,7 @@ class _ClientListPageState extends State<ClientListPage> {
                                 : Icons.watch_later_rounded,
                             color: AppColors.kWhiteColor),
                       ),
-                      backColor: AppColors.kScaffoldColor,
+                      backColor: AppColors.kBlackLightColor,
                       textColor: AppColors.kWhiteColor,
                     );
                   }))

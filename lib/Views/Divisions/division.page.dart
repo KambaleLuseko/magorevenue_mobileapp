@@ -88,7 +88,7 @@ class ListItemHome extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         context
-            .read<TaxationProvider>()
+            .read<DivisionProvider>()
             .setDivision(DivisionModel.fromJSON(data));
         Navigation.pushReplaceNavigate(page: HomePage());
       },

@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: false
         },
-        amount: {
+        totalAmount: {
             type: Sequelize.STRING,
             allowNull: false,
         },

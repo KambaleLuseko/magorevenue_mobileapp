@@ -302,14 +302,11 @@ class Dialogs {
                   children: <Widget>[
                     Container(
                       padding: const EdgeInsets.only(
-                          left: 16.0,
-                          top: 20.0 + 16.0,
-                          right: 16.0,
-                          bottom: 16.0),
-                      margin: const EdgeInsets.only(top: 50.0, bottom: 50),
+                          left: 16.0, top: 16.0, right: 16.0, bottom: 16.0),
+                      margin: const EdgeInsets.only(top: 16.0, bottom: 16),
                       decoration: BoxDecoration(
                           shape: BoxShape.rectangle,
-                          color: AppColors.kWhiteColor,
+                          color: AppColors.kAccentColor,
                           borderRadius: BorderRadius.circular(16.0),
                           boxShadow: const [
                             BoxShadow(
@@ -321,12 +318,12 @@ class Dialogs {
                         // crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 0),
                           TextWidgets.textBold(
                               align: TextAlign.center,
                               title: title,
                               fontSize: 18,
-                              textColor: AppColors.kBlackColor),
+                              textColor: AppColors.kWhiteColor),
                           const SizedBox(
                             height: 15,
                           ),
@@ -348,8 +345,8 @@ class Dialogs {
                                       Navigator.pop(context);
                                     },
                                     text: "Fermer",
-                                    backColor: Colors.grey[200]!,
-                                    textColor: AppColors.kBlackColor),
+                                    backColor: AppColors.kPrimaryColor,
+                                    textColor: AppColors.kWhiteColor),
                               ),
                               const SizedBox(height: 20),
                               Expanded(
@@ -359,11 +356,7 @@ class Dialogs {
                                       Navigator.pop(context);
                                     },
                                     text: "Confirmer",
-                                    backColor: dialogType == MessageType.error
-                                        ? AppColors.kRedColor
-                                        : dialogType == MessageType.success
-                                            ? AppColors.kGreenColor
-                                            : AppColors.kWarningColor,
+                                    backColor: AppColors.kSecondaryColor,
                                     textColor: AppColors.kWhiteColor),
                               ),
                             ],
@@ -371,37 +364,37 @@ class Dialogs {
                         ],
                       ),
                     ),
-                    Positioned(
-                      left: 50,
-                      right: 50,
-                      top: 0,
-                      child: Center(
-                        child: Container(
-                          width: 100,
-                          height: 100,
-                          padding: const EdgeInsets.all(10.0),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            color: AppColors.kWhiteColor,
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          alignment: Alignment.bottomCenter,
-                          child: Icon(
-                            dialogType == MessageType.error
-                                ? Icons.cancel
-                                : dialogType == MessageType.success
-                                    ? Icons.check_circle
-                                    : Icons.warning_amber_rounded,
-                            color: dialogType == MessageType.error
-                                ? AppColors.kRedColor
-                                : dialogType == MessageType.success
-                                    ? AppColors.kGreenColor
-                                    : AppColors.kWarningColor,
-                            size: 80,
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Positioned(
+                    //   left: 50,
+                    //   right: 50,
+                    //   top: 0,
+                    //   child: Center(
+                    //     child: Container(
+                    //       width: 100,
+                    //       height: 100,
+                    //       padding: const EdgeInsets.all(10.0),
+                    //       decoration: BoxDecoration(
+                    //         shape: BoxShape.rectangle,
+                    //         color: AppColors.kWhiteColor,
+                    //         borderRadius: BorderRadius.circular(100),
+                    //       ),
+                    //       alignment: Alignment.bottomCenter,
+                    //       child: Icon(
+                    //         dialogType == MessageType.error
+                    //             ? Icons.cancel
+                    //             : dialogType == MessageType.success
+                    //                 ? Icons.check_circle
+                    //                 : Icons.warning_amber_rounded,
+                    //         color: dialogType == MessageType.error
+                    //             ? AppColors.kRedColor
+                    //             : dialogType == MessageType.success
+                    //                 ? AppColors.kGreenColor
+                    //                 : AppColors.kWarningColor,
+                    //         size: 80,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

@@ -5,12 +5,12 @@ import 'package:tax_payment_app/Resources/Models/partner.model.dart';
 class TaxationModel {
   int? id, syncStatus, active;
   String? uuid, createdAt, status, taxName, taxDescription;
-  String client_uuid, amount;
+  String client_uuid, totalAmount;
   ClientModel? client;
   List<TaxePaymentModel>? taxes;
   TaxationModel(
       {required this.client_uuid,
-      required this.amount,
+      required this.totalAmount,
       this.status,
       this.id,
       this.uuid,
@@ -25,7 +25,7 @@ class TaxationModel {
   static fromJSON(json) {
     return TaxationModel(
         client_uuid: json['client_uuid'],
-        amount: json['amount']?.toString() ?? '0',
+        totalAmount: json['totalAmount']?.toString() ?? '0',
         status: json['status'],
         id: json['id'],
         uuid: json['uuid'],
@@ -52,7 +52,7 @@ class TaxationModel {
       "id": id,
       "uuid": uuid ?? uuidGenerator(),
       "client_uuid": client_uuid,
-      "amount": amount,
+      "totalAmount": totalAmount,
       "status": status ?? "Constatation",
       "syncStatus": syncStatus ?? 0,
       "createdAt": createdAt ?? DateTime.now().toString(),
